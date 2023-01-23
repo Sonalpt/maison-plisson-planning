@@ -60,7 +60,7 @@ const OldSchedules = () => {
                                           .then((response) => {
                                                 setListOfPlannings(response.data.listOfPlannings);
                                                 setIsLoaded(true);
-                                                console.log(listOfPlannings)
+                                                
                                           });
                               }
                         })
@@ -91,9 +91,7 @@ const OldSchedules = () => {
       if (!isLoaded) {
             return <div>chargement en cours</div>
       } else {
-            console.log(listOfPlannings)
-            console.log(filteredListDirection)
-            console.log(filteredListNoDirection)
+            
             return (
                   <>
                         <Navbar />

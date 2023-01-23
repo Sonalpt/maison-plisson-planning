@@ -71,6 +71,16 @@ useEffect(() => {
     
     
       }, [!listOfPlannings]);
+
+      function planningModification(key: number) {
+            const employeeRow = document.querySelector(`#employee_row_${key}`)
+            const spans = employeeRow.querySelectorAll(`.spanInput`);
+            spans.forEach(span => {
+            const input = document.createElement('input');
+            input.value = span.textContent;
+            span.replaceWith(input);
+            });
+      }
       
 
       if (!isLoaded) {
@@ -113,7 +123,7 @@ useEffect(() => {
                                                       if (isPeriodeFound) {
                                                             return
                                                       } else {
-                                                            console.log(value)
+                                                       
                                                             isPeriodeFound = true
                                                             return (
 
@@ -177,82 +187,85 @@ useEffect(() => {
                                          
                                           {authState.isDirection && listOfPlannings.some(planning => planning.planning_id === id) ? listOfPlannings.map((value, key) => {
                                                 if (value.planning_id === id) {
+
+                                                      let keyString = "employee_row_" + key.toString();
                                                       
                                                       return (
-                                                            <tr className="employee_row" key={key}>
+                                                            <tr className="employee_row" id={keyString} key={key}>
                                                                   <td>{value.nom_employe}</td>
                                                                   <td>{value.fonction}</td>
                                                                   <td>
-                                                                        <span>{value.lundi[0]} - {value.lundi[1]}</span>
+                                                                        <span className="spanInput">{value.lundi[0]} - {value.lundi[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.lundi[2]} - {value.lundi[3]}</span>
+                                                                        <span className="spanInput">{value.lundi[2]} - {value.lundi[3]}</span>
                                                                   </td>
                                                                   <td>
-                                                                        <span>{value.mardi[0]} - {value.mardi[1]}</span>
+                                                                        <span className="spanInput">{value.mardi[0]} - {value.mardi[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.mardi[2]} - {value.mardi[3]}</span>
+                                                                        <span className="spanInput">{value.mardi[2]} - {value.mardi[3]}</span>
                                                                   </td>
                                                                   <td>
-                                                                        <span>{value.mercredi[0]} - {value.mercredi[1]}</span>
+                                                                        <span className="spanInput">{value.mercredi[0]} - {value.mercredi[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.mercredi[2]} - {value.mercredi[3]}</span>
+                                                                        <span className="spanInput">{value.mercredi[2]} - {value.mercredi[3]}</span>
                                                                   </td>
                                                                   <td>
-                                                                        <span>{value.jeudi[0]} - {value.jeudi[1]}</span>
+                                                                        <span className="spanInput">{value.jeudi[0]} - {value.jeudi[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.jeudi[2]} - {value.jeudi[3]}</span>
+                                                                        <span className="spanInput">{value.jeudi[2]} - {value.jeudi[3]}</span>
                                                                   </td>
                                                                   <td>
-                                                                        <span>{value.vendredi[0]} - {value.vendredi[1]}</span>
+                                                                        <span className="spanInput">{value.vendredi[0]} - {value.vendredi[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.vendredi[2]} - {value.vendredi[3]}</span>
+                                                                        <span className="spanInput">{value.vendredi[2]} - {value.vendredi[3]}</span>
                                                                   </td>
                                                                   <td>
-                                                                        <span>{value.samedi[0]} - {value.samedi[1]}</span>
+                                                                        <span className="spanInput">{value.samedi[0]} - {value.samedi[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.samedi[2]} - {value.samedi[3]}</span>
+                                                                        <span className="spanInput">{value.samedi[2]} - {value.samedi[3]}</span>
                                                                   </td>
                                                                   <td>
-                                                                        <span>{value.dimanche[0]} - {value.dimanche[1]}</span>
+                                                                        <span className="spanInput">{value.dimanche[0]} - {value.dimanche[1]}</span>
                                                                         {/* <br /> */}
                                                                         <br />
                                                                         <span className="repas">
                                                                               Repas
                                                                         </span>{" "}
                                                                         <br />
-                                                                        <span>{value.dimanche[2]} - {value.dimanche[3]}</span>
+                                                                        <span className="spanInput">{value.dimanche[2]} - {value.dimanche[3]}</span>
                                                                   </td>
                                                                   <td>{value.total_horaires}</td>
+                                                                  <td onClick={() => {planningModification(key)}}>Modifier</td>
                                                             </tr>
                                                       )
                                                 };
@@ -265,7 +278,7 @@ useEffect(() => {
                                                       isPlanningFound = true
                                                       return (
                                           /* Code pour rendre la table de l'employé */
-                                          (<tr className="employee_row">
+                                          (<tr className="employee_row" key={key}>
                                                       <td>{value.nom_employe}</td>
                                                 <td>{value.fonction}</td>
                                                       <td>
