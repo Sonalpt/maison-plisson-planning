@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import moment from "moment";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
@@ -23,6 +24,10 @@ const DisplayedSchedule = () => {
       
       var isPeriodeFound = false;
       var isPlanningFound = false;
+
+      var planningsToFetch: any = [];
+
+      const [tdModificationState, setTdModificationState] = useState(1);
 
 useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
@@ -57,35 +62,140 @@ useEffect(() => {
                         .then((response) => {
                             setListOfPlannings(response.data.listOfPlannings);
                             if (listOfPlannings) {
-                                setIsLoaded(true);
+                                  setIsLoaded(true);
                             } else {
                                 return;
-                            }
-                           
+                            } 
                         });
 
                               }
                         })
             }
 
-    
-    
       }, [!listOfPlannings]);
+      
 
-      function planningModification(key: number) {
+      function planningModificationStart(key: number) {
             const employeeRow = document.querySelector(`#employee_row_${key}`)
             const spans = employeeRow.querySelectorAll(`.spanInput`);
             spans.forEach(span => {
-            const input = document.createElement('input');
-            input.value = span.textContent;
-            span.replaceWith(input);
+                  const input = document.createElement('input');
+                  input.value = span.textContent;
+                  span.replaceWith(input);
             });
+            setTdModificationState(2)
+            // const tdEnvoyer = React.createElement("td", { onClick: modifyPlanningObject(key) }, "Envoyer");
+            // const tdToDelete = employeeRow.querySelector(`td:nth-child(11)`);
+            // console.log(tdToDelete)
+            // tdToDelete.remove();
       }
+
+      function modifyPlanningObject(key: number) {
+            let total: number = null;
+            
+            
+            let planning: Record<string, any> = {
+                  id: listOfPlannings[key].id,
+                  planning_id: listOfPlannings[key].planning_id,
+                  periode: listOfPlannings[key].periode,
+                  nom_employe: listOfPlannings[key].nom_employe,
+                  fonction: listOfPlannings[key].fonction,
+                  lundi: [(document.querySelector(`#employee_row_${key} td:nth-child(3) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(3) input:last-child`) as HTMLInputElement).value],
+                  mardi: [(document.querySelector(`#employee_row_${key} td:nth-child(4) input:first-child`)as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(4) input:last-child`)as HTMLInputElement).value],
+                  mercredi: [(document.querySelector(`#employee_row_${key} td:nth-child(5) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(5) input:last-child`) as HTMLInputElement).value],
+                  jeudi: [(document.querySelector(`#employee_row_${key} td:nth-child(6) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(6) input:last-child`) as HTMLInputElement).value],
+                  vendredi: [(document.querySelector(`#employee_row_${key} td:nth-child(7) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(7) input:last-child`) as HTMLInputElement).value],
+                  samedi: [(document.querySelector(`#employee_row_${key} td:nth-child(8) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(8) input:last-child`) as HTMLInputElement).value],
+                  dimanche: [(document.querySelector(`#employee_row_${key} td:nth-child(9) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(9) input:last-child`) as HTMLInputElement).value],
+                  total_horaires: 0
+            };
+            if (planning) {
+                  const days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+                  
+                  for (let i = 0; i < days.length; i++) {
+                        if (planning[days[i]][0] === "" || planning[days[i]][0] === " - " || planning[days[i]][1] === "" || planning[days[i]][1] === " - ") {
+                              let horaires = planning[days[i]];
+                                    for (let j = 0; j < horaires.length; j += 1) {
+                                          let timeArray = [];
+                                          if (horaires[j] === "" || horaires[j] === " - ") {
+                                                
+                                                planning[days[i]] = [...planning[days[i]], "00:00", "00:00"]
+                                                
+                                          } else {
+                                                let times = horaires[j].split(" - ");
+                                                timeArray.push(times[0], times[1]);
+                                                planning[days[i]] = [...planning[days[i]], ...timeArray]
+                                          }    
+                              } 
+
+                        } else {
+                                    let horaires = planning[days[i]];
+                                    for (let j = 0; j < horaires.length; j += 1) {
+                                          let timeArray = [];
+                                          let times = horaires[j].split(" - ");
+                                          timeArray.push(times[0], times[1]);
+                                          planning[days[i]] = [...planning[days[i]], ...timeArray]
+                                    }     
+                        }
+                        if (planning[days[i]].length === 6) {
+                              planning[days[i]].splice(0,2)
+                              }
+                              if (planning[days[i]].length === 0) {
+                                    return;
+                              }
+                              if (planning[days[i]].length === 4) {
+                                    const jour = planning[days[i]]; 
+                                    for (let k = 0; k < jour.length; k += 2) {
+                                          let start = moment(jour[k], "HH:mm");
+                                          let end = moment(jour[k + 1], "HH:mm");
+                                          let duration = moment.duration(end.diff(start)).asHours();
+                                          total += duration;
+                                    }
+                              }
+                        
+                  }
+                  planning.total_horaires = total;
+            }
+          
+           
+            planning.total_horaires = total;
+            let totalInput = document.querySelector(`#employee_row_${key} td:nth-child(10)`)
+           
+            totalInput.textContent = total.toString();
+            planningsToFetch.push(planning);
+           
+            const tdToDelete = document.querySelector(`#employee_row_${key} td:nth-child(12)`);
+            tdToDelete.remove();
+            setTdModificationState(1)
+            console.log(planningsToFetch[0])
+            onSubmit();
+            
+      }
+
+      const onSubmit = () => {
+            axios
+                  .put(
+                  "http://localhost:3001/planning/editplanning",
+                  {
+                  planning: planningsToFetch[0]
+                  },
+                  {
+                  headers: {
+                        accessToken: localStorage.getItem("accessToken"),
+                  },
+                  }
+                  )
+                  .then((response) => {
+                     
+                  navigate("/");
+                  });
+      };
       
 
       if (!isLoaded) {
             return <div>Pas d'emploi du temps pour le moment !</div>
       } else {
+
             if (id === 0 && authState.isDirection) {
                   const filteredListDirection = listOfPlannings.filter((planning, index, self) => 
                               index === self.findIndex(t => (
@@ -191,6 +301,7 @@ useEffect(() => {
                                                       let keyString = "employee_row_" + key.toString();
                                                       
                                                       return (
+                                                            
                                                             <tr className="employee_row" id={keyString} key={key}>
                                                                   <td>{value.nom_employe}</td>
                                                                   <td>{value.fonction}</td>
@@ -265,9 +376,13 @@ useEffect(() => {
                                                                         <span className="spanInput">{value.dimanche[2]} - {value.dimanche[3]}</span>
                                                                   </td>
                                                                   <td>{value.total_horaires}</td>
-                                                                  <td onClick={() => {planningModification(key)}}>Modifier</td>
+                                                                  {tdModificationState === 2 ? (<td></td>) : <td onClick={() => { planningModificationStart(key) }}>Modifier</td>}
+                                                                  {tdModificationState === 2 ? (
+                                                                        <td onClick={() => {modifyPlanningObject(key)}}>Envoyer</td>
+                                                                  ) : <td></td>}
                                                             </tr>
                                                       )
+                                                     
                                                 };
                                     // eslint-disable-next-line array-callback-return
                                     }) : authState.nom_complet && listOfPlannings.some(employee => employee.nom_employe === authState.nom_complet) ? listOfPlannings.map((value, key) => {

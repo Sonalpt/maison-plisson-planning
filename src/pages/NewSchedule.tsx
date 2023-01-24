@@ -82,13 +82,13 @@ const NewSchedule = () => {
                   periode: (document.querySelector("caption input:first-child") as HTMLInputElement).value,
                   nom_employe: employee.nom_employee,
                   fonction: employee.fonction,
-                  lundi: [(document.querySelector(`#employe_row_${key} td:nth-child(3) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(3) input:last-child`) as HTMLInputElement).value],
-                  mardi: [(document.querySelector(`#employe_row_${key} td:nth-child(4) input:first-child`)as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(4) input:last-child`)as HTMLInputElement).value],
-                  mercredi: [(document.querySelector(`#employe_row_${key} td:nth-child(5) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(5) input:last-child`) as HTMLInputElement).value],
-                  jeudi: [(document.querySelector(`#employe_row_${key} td:nth-child(6) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(6) input:last-child`) as HTMLInputElement).value],
-                  vendredi: [(document.querySelector(`#employe_row_${key} td:nth-child(7) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(7) input:last-child`) as HTMLInputElement).value],
-                  samedi: [(document.querySelector(`#employe_row_${key} td:nth-child(8) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(8) input:last-child`) as HTMLInputElement).value],
-                  dimanche: [(document.querySelector(`#employe_row_${key} td:nth-child(9) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(9) input:last-child`) as HTMLInputElement).value],
+                  lundi: [(document.querySelector(`#employee_row_${key} td:nth-child(3) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(3) input:last-child`) as HTMLInputElement).value],
+                  mardi: [(document.querySelector(`#employee_row_${key} td:nth-child(4) input:first-child`)as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(4) input:last-child`)as HTMLInputElement).value],
+                  mercredi: [(document.querySelector(`#employee_row_${key} td:nth-child(5) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(5) input:last-child`) as HTMLInputElement).value],
+                  jeudi: [(document.querySelector(`#employee_row_${key} td:nth-child(6) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(6) input:last-child`) as HTMLInputElement).value],
+                  vendredi: [(document.querySelector(`#employee_row_${key} td:nth-child(7) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(7) input:last-child`) as HTMLInputElement).value],
+                  samedi: [(document.querySelector(`#employee_row_${key} td:nth-child(8) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(8) input:last-child`) as HTMLInputElement).value],
+                  dimanche: [(document.querySelector(`#employee_row_${key} td:nth-child(9) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employee_row_${key} td:nth-child(9) input:last-child`) as HTMLInputElement).value],
                   total_horaires: 0
             };
             if (planning) {
@@ -99,12 +99,12 @@ const NewSchedule = () => {
                               continue;
                         } else {
                                     let horaires = planning[days[i]];
-                              for (let j = 0; j < horaires.length; j += 1) {
-                                    let timeArray = [];
-                                    let times = horaires[j].split(" - ");
-                                    timeArray.push(times[0], times[1]);
-                                    planning[days[i]] = [...planning[days[i]], ...timeArray]
-                              }
+                                    for (let j = 0; j < horaires.length; j += 1) {
+                                          let timeArray = [];
+                                          let times = horaires[j].split(" - ");
+                                          timeArray.push(times[0], times[1]);
+                                          planning[days[i]] = [...planning[days[i]], ...timeArray]
+                                    }     
                         
                               if (planning[days[i]].length === 6) {
                               planning[days[i]].splice(0,2)
@@ -137,24 +137,7 @@ const NewSchedule = () => {
             tdToDelete.remove();
       }
 
-      function createPlanningObjectTest(employee:any, key:number) {
-            let planning = {
-                  id: listOfPlannings.length,
-                  periode: "09/01/23 au 15/01/23",
-                  nom_employe: "BADJI Rémy",
-                  fonction: "Caissier",
-                  lundi: [(document.querySelector(`#employe_row_${key} td:nth-child(3) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(3) input:last-child`) as HTMLInputElement).value],
-                  mardi: [(document.querySelector(`#employe_row_${key} td:nth-child(4) input:first-child`)as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(4) input:last-child`)as HTMLInputElement).value],
-                  mercredi: [(document.querySelector(`#employe_row_${key} td:nth-child(5) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(5) input:last-child`) as HTMLInputElement).value],
-                  jeudi: [(document.querySelector(`#employe_row_${key} td:nth-child(6) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(6) input:last-child`) as HTMLInputElement).value],
-                  vendredi: [(document.querySelector(`#employe_row_${key} td:nth-child(7) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(7) input:last-child`) as HTMLInputElement).value],
-                  samedi: [(document.querySelector(`#employe_row_${key} td:nth-child(8) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(8) input:last-child`) as HTMLInputElement).value],
-                  dimanche: [(document.querySelector(`#employe_row_${key} td:nth-child(9) input:first-child`) as HTMLInputElement).value, (document.querySelector(`#employe_row_${key} td:nth-child(9) input:last-child`) as HTMLInputElement).value],
-                  total_horaires: 0
-            };
-            planningsToFetch.push(planning);
-            console.log(planningsToFetch);
-      }
+      
 
       const onSubmit = () => {
             axios
@@ -203,7 +186,7 @@ const NewSchedule = () => {
                               
                               {listOfEmployees.map((employee, key) => {
                                     return (    
-                                          <tr className="employee_row" id={`employe_row_${key}`} key={key}>
+                                          <tr className="employee_row" id={`employee_row_${key}`} key={key}>
                                     <td>{employee.nom_employee}</td>
                                           <td>{employee.fonction }</td>
                                     <td>
