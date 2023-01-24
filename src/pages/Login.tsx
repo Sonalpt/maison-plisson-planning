@@ -71,15 +71,13 @@ const Login = () => {
                               isDirection: response.data.isDirection,
                               status: true,
                         });
-                        console.log(response.data)
+                      
                         navigate("/planning/0");
                   }
             });
       };
 
-      const onSubmitTest = () => {
-            console.log("je suis rigolo")
-      }
+    
 
       return (
             <>
@@ -105,7 +103,6 @@ const Login = () => {
                                     />
                                     <Field
                                           autoComplete="off"
-                                          id="inputCreatePost"
                                           name="username"
                                           placeholder="(Ex. John123...)"
                                     />
@@ -118,7 +115,6 @@ const Login = () => {
                                     <Field
                                           autoComplete="off"
                                           type="password"
-                                          id="inputCreatePost"
                                           name="password"
                                           placeholder="Votre mot de passe..."
                                     />

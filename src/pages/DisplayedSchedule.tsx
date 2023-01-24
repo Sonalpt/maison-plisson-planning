@@ -113,13 +113,13 @@ useEffect(() => {
                   const days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
                   
                   for (let i = 0; i < days.length; i++) {
-                        if (planning[days[i]][0] === "" || planning[days[i]][0] === " - " || planning[days[i]][1] === "" || planning[days[i]][1] === " - ") {
+                        if (planning[days[i]][0] === "" || planning[days[i]][0] === " - " || planning[days[i]][0] === "-" || planning[days[i]][1] === "" || planning[days[i]][1] === " - " || planning[days[i]][1] === "-") {
                               let horaires = planning[days[i]];
                                     for (let j = 0; j < horaires.length; j += 1) {
                                           let timeArray = [];
                                           if (horaires[j] === "" || horaires[j] === " - ") {
                                                 
-                                                planning[days[i]] = [...planning[days[i]], "00:00", "00:00"]
+                                                planning[days[i]] = [...planning[days[i]], " - ", " - "]
                                                 
                                           } else {
                                                 let times = horaires[j].split(" - ");
@@ -143,13 +143,21 @@ useEffect(() => {
                               if (planning[days[i]].length === 0) {
                                     return;
                               }
-                              if (planning[days[i]].length === 4) {
+                        if (planning[days[i]].length === 4) {
                                     const jour = planning[days[i]]; 
                                     for (let k = 0; k < jour.length; k += 2) {
-                                          let start = moment(jour[k], "HH:mm");
-                                          let end = moment(jour[k + 1], "HH:mm");
-                                          let duration = moment.duration(end.diff(start)).asHours();
-                                          total += duration;
+                                          if (jour[k] === "" || jour[k] === " - ") {
+                                                let start = moment("00:00", "HH:mm");
+                                                let end = moment("00:00", "HH:mm");
+                                                let duration = moment.duration(end.diff(start)).asHours();
+                                                total += duration;
+                                          } else {
+                                                let start = moment(jour[k], "HH:mm");
+                                                let end = moment(jour[k + 1], "HH:mm");
+                                                let duration = moment.duration(end.diff(start)).asHours();
+                                                total += duration;
+                                          }
+                                          
                                     }
                               }
                         
