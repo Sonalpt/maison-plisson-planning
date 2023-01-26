@@ -6,6 +6,9 @@ import moment from "moment";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
+import html2canvas from "html2canvas";
+import * as jsPDF from "jspdf";
+// import puppeteer from "puppeteer";
 
 
 
@@ -38,7 +41,7 @@ useEffect(() => {
                 headers: { accessToken: localStorage.getItem("accessToken") },
             })
             .then((response) => {
-                if (response.status === 200) {
+                if (response.status === 200 && !response.data.error) {
                     
                     setAuthState({
                         username: response.data.username,
@@ -68,8 +71,12 @@ useEffect(() => {
                             } 
                         });
 
-                              }
-                        })
+                } else {
+                      alert("Sessino expirée, veuillez vous reconnecter !")
+                        localStorage.removeItem("accessToken");
+                        navigate("/")
+                  }
+            })
             }
 
       }, [!listOfPlannings]);
@@ -198,6 +205,20 @@ useEffect(() => {
                   navigate("/");
                   });
       };
+
+      async function toPDF() {
+            var doc = new jsPDF.jsPDF('p', 'pt', 'a4');
+
+            doc.html(document.querySelector('table'), {
+                  callback: function (doc) {
+                        doc.save('MLB World Series Winners.pdf');
+                  },
+                  margin: [60, 60, 60, 60],
+                  x: 32,
+                  y: 32,
+                  });
+      }
+      
       
 
       if (!isLoaded) {
@@ -485,7 +506,9 @@ useEffect(() => {
                               </tbody>
                               
                               </>
-                        </table>
+                              </table>
+                              
+                              <button onClick={toPDF}>Exporter en PDF</button>
                   </div>
             </>
             
