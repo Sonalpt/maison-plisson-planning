@@ -1,6 +1,7 @@
 import React, { useRef} from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import InfoBubble from "../components/InfoBubble"
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
@@ -161,7 +162,9 @@ const NewSchedule = () => {
       return (
             <>
                   <Navbar />
+                  <InfoBubble />
                   <div className="newSchedule_container">
+                        
                         <table>
                               <caption>
                                     Période du : <input ref={periodeInputRef}></input>

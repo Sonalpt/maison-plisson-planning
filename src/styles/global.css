@@ -191,6 +191,9 @@ nav p:hover {
   -moz-border-radius: 1rem;
   -ms-border-radius: 1rem;
   -o-border-radius: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .app_container .newSchedule_container table caption {
@@ -293,5 +296,41 @@ nav p:hover {
 
 .oldSchedule_container__list .planningContainer:hover {
   cursor: pointer;
+}
+
+.infoBubble {
+  border: 0.1rem solid #FFFFFF;
+  border-radius: 1rem;
+  padding: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+  width: 25rem;
+  height: 60rem;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  top: 50%;
+  left: 10%;
+  font-size: 1.4rem;
+}
+
+.infoBubble h3, .infoBubble h4 {
+  text-transform: uppercase;
+  color: #ce4750;
+}
+
+.infoBubble h3 {
+  font-size: 2.4rem;
+  border-bottom: 0.1rem solid #FFFFFF;
+  padding-bottom: 1rem;
+}
+
+.infoBubble h4 {
+  font-size: 1.6rem;
 }
 /*# sourceMappingURL=global.css.map */

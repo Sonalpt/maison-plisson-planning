@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import moment from "moment";
+import InfoBubble from "../components/InfoBubble";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
@@ -211,7 +212,7 @@ useEffect(() => {
 
             doc.html(document.querySelector('table'), {
                   callback: function (doc) {
-                        doc.save('MLB World Series Winners.pdf');
+                        doc.save('schedule.pdf');
                   },
                   margin: [60, 60, 60, 60],
                   x: 32,
@@ -251,7 +252,8 @@ useEffect(() => {
             }
             return (
             <>
-                  <Navbar />
+                        <Navbar />
+                        {tdModificationState === 2 ? (<InfoBubble />) : null}
                   <div className="newSchedule_container">
                               <table>
                                     <>
