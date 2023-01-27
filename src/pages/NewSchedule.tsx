@@ -96,8 +96,18 @@ const NewSchedule = () => {
                   const days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
                   
                   for (let i = 0; i < days.length; i++) {
-                        if (planning[days[i]][0] === "" || planning[days[i]][1] === "") {
-                              continue;
+                        if (planning[days[i]][0] === "" || planning[days[i]][0] === " - " || planning[days[i]][0] === "-" || planning[days[i]][1] === "" || planning[days[i]][1] === " - " || planning[days[i]][1] === "-") {
+                              let horaires = planning[days[i]];
+                                    for (let j = 0; j < horaires.length; j += 1) {
+                                          let timeArray = [];
+                                          if (horaires[j] === "" || horaires[j] === " - ") {  
+                                                planning[days[i]] = [...planning[days[i]], " - ", " - "]
+                                          } else {
+                                                let times = horaires[j].split(" - ");
+                                                timeArray.push(times[0], times[1]);
+                                                planning[days[i]] = [...planning[days[i]], ...timeArray]
+                                          }    
+                              } 
                         } else {
                                     let horaires = planning[days[i]];
                                     for (let j = 0; j < horaires.length; j += 1) {
@@ -106,37 +116,67 @@ const NewSchedule = () => {
                                           timeArray.push(times[0], times[1]);
                                           planning[days[i]] = [...planning[days[i]], ...timeArray]
                                     }     
-                        
-                              if (planning[days[i]].length === 6) {
+                        }
+                        if (planning[days[i]].length === 6) {
                               planning[days[i]].splice(0,2)
                               }
                               if (planning[days[i]].length === 0) {
                                     return;
                               }
-                              if (planning[days[i]].length === 4) {
+                        if (planning[days[i]].length === 4) {
                                     const jour = planning[days[i]]; 
                                     for (let k = 0; k < jour.length; k += 2) {
-                                          let start = moment(jour[k], "HH:mm");
-                                          let end = moment(jour[k + 1], "HH:mm");
-                                          let duration = moment.duration(end.diff(start)).asHours();
-                                          console.log(duration);
-                                          total += duration;
+                                          if (jour[k] === "" || jour[k] === " - " || jour[k] === "-") {
+                                                let start = moment("00:00", "HH:mm");
+                                                let end = moment("00:00", "HH:mm");
+                                                let duration = moment.duration(end.diff(start)).asHours();
+                                                total += duration;
+                                          } else {
+                                                let start = moment(jour[k], "HH:mm");
+                                                let end = moment(jour[k + 1], "HH:mm");
+                                                let duration = moment.duration(end.diff(start)).asHours();
+                                                total += duration;
+                                          }
+                                          
                                     }
                               }
-                        }
                         
                   }
                   planning.total_horaires = total;
             }
-            console.log(total)
-            planning.total_horaires = total;
-            let totalInput = document.querySelector(`#employe_row_${key} td:nth-child(10)`)
-            totalInput.textContent = total.toString();
-            planningsToFetch.push(planning);
-            console.log(planningsToFetch)
-            const tdToDelete = document.querySelector(`#employe_row_${key} td:nth-child(11)`);
-            tdToDelete.remove();
+            const employeeRow = document.querySelector(`#employee_row_${key}`)
+            const inputs = employeeRow.querySelectorAll(`input`);
+            let isValidChecker: number = 0;
+            inputs.forEach(input => {
+                  const horaireValue = input.value;
+                  const horaireRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9] - (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+                  if (horaireValue === "" || horaireValue === "-" || horaireValue === " - ") {
+                        isValidChecker += 0;
+                  }
+                  else if (!horaireRegex.test(horaireValue)) {
+                        isValidChecker++;
+                        return;
+                  }
+            })
+            if (isValidChecker > 0) {
+                  alert("Veuillez rentrer vos horaires dans un format valide !");
+                  return;
+            } else {
+                  planning.total_horaires = total;
+                  let totalInput = (document.querySelector(`#employee_row_${key} td:nth-child(10)`) as HTMLTableCellElement)
+                  totalInput.innerText = total.toString();
+                  planningsToFetch.push(planning);
+                  const tdToDelete = document.querySelector(`#employee_row_${key} td:nth-child(11)`);
+                  tdToDelete.remove();
+                  inputs.forEach(input => {
+                        const span = document.createElement('span');
+                        span.textContent = input.value;
+                        input.replaceWith(span);
+                  }); 
+            }
       }
+
+      
 
       
 
@@ -193,28 +233,56 @@ const NewSchedule = () => {
                                     <td>{employee.nom_employee}</td>
                                           <td>{employee.fonction }</td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                     <td>
-                                          <input></input> Repas <input></input>
+                                          <input></input>
+                                          <br />
+                                          <span className="repas">Repas</span>{" "}
+                                          <br />
+                                          <input></input>
                                     </td>
                                                 <td>00</td>
-                                                <td onClick={(event) => createPlanningObject(employee, key)}>ajouter au tableau</td>
+                                                <td onClick={(event) => createPlanningObject(employee, key)}>Valider</td>
 
                               </tr>
                                     )

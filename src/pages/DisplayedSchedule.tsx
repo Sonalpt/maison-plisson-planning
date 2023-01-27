@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import React from "react";
+import React, { useRef } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import moment from "moment";
@@ -7,9 +7,7 @@ import InfoBubble from "../components/InfoBubble";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
-import html2canvas from "html2canvas";
-import * as jsPDF from "jspdf";
-// import puppeteer from "puppeteer";
+import { useReactToPrint } from "react-to-print";
 
 
 
@@ -32,6 +30,8 @@ const DisplayedSchedule = () => {
       var planningsToFetch: any = [];
 
       const [tdModificationState, setTdModificationState] = useState(1);
+
+      const componentRef = useRef();
 
 useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
@@ -125,17 +125,14 @@ useEffect(() => {
                               let horaires = planning[days[i]];
                                     for (let j = 0; j < horaires.length; j += 1) {
                                           let timeArray = [];
-                                          if (horaires[j] === "" || horaires[j] === " - ") {
-                                                
+                                          if (horaires[j] === "" || horaires[j] === " - ") {  
                                                 planning[days[i]] = [...planning[days[i]], " - ", " - "]
-                                                
                                           } else {
                                                 let times = horaires[j].split(" - ");
                                                 timeArray.push(times[0], times[1]);
                                                 planning[days[i]] = [...planning[days[i]], ...timeArray]
                                           }    
                               } 
-
                         } else {
                                     let horaires = planning[days[i]];
                                     for (let j = 0; j < horaires.length; j += 1) {
@@ -207,18 +204,11 @@ useEffect(() => {
                   });
       };
 
-      async function toPDF() {
-            var doc = new jsPDF.jsPDF('p', 'pt', 'a4');
-
-            doc.html(document.querySelector('table'), {
-                  callback: function (doc) {
-                        doc.save('schedule.pdf');
-                  },
-                  margin: [60, 60, 60, 60],
-                  x: 32,
-                  y: 32,
-                  });
-      }
+      const toPrint =
+            useReactToPrint({
+            content: () => componentRef.current,
+            });
+      
       
       
 
@@ -510,7 +500,7 @@ useEffect(() => {
                               </>
                               </table>
                               
-                              <button onClick={toPDF}>Exporter en PDF</button>
+                              <button onClick={toPrint}>Exporter en PDF</button>
                   </div>
             </>
             

@@ -196,6 +196,15 @@ nav p:hover {
   display: flex;
 }
 
+.app_container .newSchedule_container table {
+  border: 0.3rem solid #FFFFFF;
+  border-radius: 1rem;
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  -ms-border-radius: 1rem;
+  -o-border-radius: 1rem;
+}
+
 .app_container .newSchedule_container table caption {
   text-align: center;
   margin-bottom: 2.5rem;

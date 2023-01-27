@@ -34,6 +34,7 @@ function App() {
 
       return (
             <>
+                  <link rel="stylesheet" media='all' href="./styles/global.css" />
                   <AuthContext.Provider
                               value={{ authState, setAuthState }}
                   >
