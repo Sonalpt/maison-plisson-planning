@@ -169,20 +169,34 @@ useEffect(() => {
                   }
                   planning.total_horaires = total;
             }
-          
-           
-            planning.total_horaires = total;
-            let totalInput = document.querySelector(`#employee_row_${key} td:nth-child(10)`)
-           
-            totalInput.textContent = total.toString();
-            planningsToFetch.push(planning);
-           
-            const tdToDelete = document.querySelector(`#employee_row_${key} td:nth-child(12)`);
-            tdToDelete.remove();
-            setTdModificationState(1)
-            console.log(planningsToFetch[0])
-            onSubmit();
-            
+            const employeeRow = document.querySelector(`#employee_row_${key}`)
+            const inputs = employeeRow.querySelectorAll(`input`);
+            let isInputValidChecker: number = 0;
+            inputs.forEach(input => {
+                  const horaireValue = input.value;
+                  const horaireRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9] - (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+                  if (horaireValue === "" || horaireValue === "-" || horaireValue === " - " || horaireValue === " -  -  - ") {
+                        isInputValidChecker += 0;
+                  }
+                  else if (!horaireRegex.test(horaireValue)) {
+                        isInputValidChecker++;
+                        return;
+                  }
+            })
+            if (isInputValidChecker > 0) {
+                  alert("Veuillez rentrer vos horaires dans un format valide !");
+                  return;
+            } else {
+                  planning.total_horaires = total;
+                  let totalInput = document.querySelector(`#employee_row_${key} td:nth-child(10)`)
+                  totalInput.textContent = total.toString();
+                  planningsToFetch.push(planning);
+                  const tdToDelete = document.querySelector(`#employee_row_${key} td:nth-child(12)`);
+                  tdToDelete.remove();
+                  setTdModificationState(1)
+                  console.log(planningsToFetch[0])
+                  onSubmit();
+            }
       }
 
       const onSubmit = () => {

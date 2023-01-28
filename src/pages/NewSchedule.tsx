@@ -146,19 +146,29 @@ const NewSchedule = () => {
             }
             const employeeRow = document.querySelector(`#employee_row_${key}`)
             const inputs = employeeRow.querySelectorAll(`input`);
-            let isValidChecker: number = 0;
+            let isInputValidChecker: number = 0;
+            let isPeriodValidChecker: boolean = true;
+            const periodeRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{2} au (0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{2}$/;
             inputs.forEach(input => {
                   const horaireValue = input.value;
                   const horaireRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9] - (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
                   if (horaireValue === "" || horaireValue === "-" || horaireValue === " - ") {
-                        isValidChecker += 0;
+                        isInputValidChecker += 0;
                   }
                   else if (!horaireRegex.test(horaireValue)) {
-                        isValidChecker++;
+                        isInputValidChecker++;
                         return;
                   }
             })
-            if (isValidChecker > 0) {
+            if (!periodeRegex.test(planning.periode)) {
+                  alert("Veuillez rentrer la période dans un format valide !");
+                  isPeriodValidChecker = false;
+                  return;
+            } else if(periodeRegex.test(planning.periode)) {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                  isPeriodValidChecker = true;
+            }
+            if (isInputValidChecker > 0) {
                   alert("Veuillez rentrer vos horaires dans un format valide !");
                   return;
             } else {
@@ -181,7 +191,16 @@ const NewSchedule = () => {
       
 
       const onSubmit = () => {
-            axios
+            let currentPeriode = (document.querySelector('caption input') as HTMLInputElement).value
+            let isPeriodValidChecker: boolean = true;
+            const periodeRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{2} au (0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/[0-9]{2}$/;
+            if (!periodeRegex.test(currentPeriode)) {
+                  alert("Veuillez rentrer la période dans un format valide !");
+                  isPeriodValidChecker = false;
+                  return;
+            } else if(periodeRegex.test(currentPeriode)) {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                   axios
                   .post(
                   "http://localhost:3001/planning",
                   {
@@ -196,6 +215,7 @@ const NewSchedule = () => {
                   .then((response) => {
                   navigate("/");
                   });
+            }
       };
 
 
