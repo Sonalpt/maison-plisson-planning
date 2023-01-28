@@ -266,4 +266,32 @@ nav {
     }
 }
 
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  table {
+    visibility: visible;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    caption,thead,tbody,tr,th,td,input,span:;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+{
+        visibility: visible;
+    }
+    td:nth-child(11) {
+        visibility: hidden;
+        position: absolute;
+        width: 0rem;
+        height: 0rem;
+    }
+  }
+  
+}
+
 

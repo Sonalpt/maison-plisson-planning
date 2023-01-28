@@ -217,15 +217,7 @@ useEffect(() => {
                   navigate("/");
                   });
       };
-
-      const toPrint =
-            useReactToPrint({
-            content: () => componentRef.current,
-            });
       
-      
-      
-
       if (!isLoaded) {
             return <div>Pas d'emploi du temps pour le moment !</div>
       } else {
@@ -259,7 +251,7 @@ useEffect(() => {
                         <Navbar />
                         {tdModificationState === 2 ? (<InfoBubble />) : null}
                   <div className="newSchedule_container">
-                              <table>
+                              <table ref={componentRef}>
                                     <>
                                           {authState.isDirection && listOfPlannings.some(planning => planning.planning_id === id) ? listOfPlannings.map((value, key) => {
                                                 
@@ -514,7 +506,7 @@ useEffect(() => {
                               </>
                               </table>
                               
-                              <button onClick={toPrint}>Exporter en PDF</button>
+                              <button onClick={() => {window.print()}}>Exporter en PDF</button>
                   </div>
             </>
             

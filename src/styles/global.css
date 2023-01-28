@@ -342,4 +342,25 @@ nav p:hover {
 .infoBubble h4 {
   font-size: 1.6rem;
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  table {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  table caption, table thead, table tbody, table tr, table th, table td, table input, table span {
+    visibility: visible;
+  }
+  table td:nth-child(11) {
+    visibility: hidden;
+    position: absolute;
+    width: 0rem;
+    height: 0rem;
+  }
+}
 /*# sourceMappingURL=global.css.map */
