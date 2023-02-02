@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import React, { useRef } from "react";
 import Navbar from "../components/Navbar";
+import MobileNavbar from "../components/MobileNavBar";
 import axios from "axios";
 import moment from "moment";
 import InfoBubble from "../components/InfoBubble";
@@ -8,6 +9,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 import { useReactToPrint } from "react-to-print";
+
 
 
 
@@ -23,15 +25,16 @@ const DisplayedSchedule = () => {
       const [listOfEmployees, setListOfEmployees] = useState([]);
       const [listOfPlannings, setListOfPlannings] = useState([]);
       const [isLoaded, setIsLoaded] = useState(false);
+      const [listOfPlanningsReversed, setListOfPlanningsReversed] = useState([]);
       
       var isPeriodeFound = false;
       var isPlanningFound = false;
-
       var planningsToFetch: any = [];
 
       const [tdModificationState, setTdModificationState] = useState(1);
 
       const componentRef = useRef();
+
 
 useEffect(() => {
     if (!localStorage.getItem("accessToken")) {
@@ -80,7 +83,11 @@ useEffect(() => {
             })
             }
 
-      }, [!listOfPlannings]);
+}, [!listOfPlannings]);
+      
+      useEffect(() => {
+            setListOfPlanningsReversed(listOfPlannings.reverse())
+      }, [listOfPlannings.length < 1]);
       
 
       function planningModificationStart(key: number) {
@@ -194,7 +201,6 @@ useEffect(() => {
                   const tdToDelete = document.querySelector(`#employee_row_${key} td:nth-child(12)`);
                   tdToDelete.remove();
                   setTdModificationState(1)
-                  console.log(planningsToFetch[0])
                   onSubmit();
             }
       }
@@ -221,9 +227,8 @@ useEffect(() => {
       if (!isLoaded) {
             return <div>Pas d'emploi du temps pour le moment !</div>
       } else {
-
             if (id === 0 && authState.isDirection) {
-                  const filteredListDirection = listOfPlannings.filter((planning, index, self) => 
+                  const filteredListDirection = listOfPlannings.reverse().filter((planning, index, self) => 
                               index === self.findIndex(t => (
                               t.planning_id === planning.planning_id
                               ))
@@ -247,7 +252,9 @@ useEffect(() => {
                   
             }
             return (
-            <>
+                  <>
+                        
+                        <MobileNavbar />
                         <Navbar />
                         {tdModificationState === 2 ? (<InfoBubble />) : null}
                   <div className="newSchedule_container">
@@ -322,7 +329,7 @@ useEffect(() => {
                               
                               <tbody>
                                          
-                                          {authState.isDirection && listOfPlannings.some(planning => planning.planning_id === id) ? listOfPlannings.map((value, key) => {
+                                          {authState.isDirection && listOfPlanningsReversed.reverse().some(planning => planning.planning_id === id) ? listOfPlanningsReversed.map((value, key) => {
                                                 if (value.planning_id === id) {
 
                                                       let keyString = "employee_row_" + key.toString();
@@ -497,8 +504,6 @@ useEffect(() => {
                                                 </tr>)
                                                 );
                                                 }
-                                          
-                                                
                                           }
                                           }) : <div>Pas d'emploi du temps pour le moment !</div>}
                               </tbody>
@@ -506,8 +511,68 @@ useEffect(() => {
                               </>
                               </table>
                               
-                              <button onClick={() => {window.print()}}>Exporter en PDF</button>
-                  </div>
+                              
+                        </div>
+                        <div className="mobile__global__container">
+                              {authState.nom_complet && !authState.isDirection && listOfPlannings.some(employee => employee.nom_employe === authState.nom_complet) ? listOfPlannings.map((value, key) => {
+                                    if (value.nom_employe === authState.nom_complet && value.planning_id === id) {
+                                          return (
+                                                /* Code pour rendre la table de l'employé */
+                                                <>
+                                                      <div className="mobile__global__container__welcome">
+                                                            <p>Hello {value.nom_employe} !</p>
+                                                            <p>Voici ton emploi du temps de la semaine du {value.periode} :</p>
+                                                      </div>
+                                                      <div className="mobile__global__container__schedule">
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Lundi:</p>
+                                                                  <div className="horaire">{value.lundi[0]} - {value.lundi[1]}</div>
+                                                                  <div className="horaire">{value.lundi[2]} - {value.lundi[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Mardi:</p>
+                                                                  <div className="horaire">{value.mardi[0]} - {value.mardi[1]}</div>
+                                                                  <div className="horaire">{value.mardi[2]} - {value.mardi[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Mercredi:</p>
+                                                                  <div className="horaire">{value.mercredi[0]} - {value.mercredi[1]}</div>
+                                                                  <div className="horaire">{value.mercredi[2]} - {value.mercredi[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Jeudi:</p>
+                                                                  <div className="horaire">{value.jeudi[0]} - {value.jeudi[1]}</div>
+                                                                  <div className="horaire">{value.jeudi[2]} - {value.jeudi[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Vendredi:</p>
+                                                                  <div className="horaire">{value.vendredi[0]} - {value.vendredi[1]}</div>
+                                                                  <div className="horaire">{value.vendredi[2]} - {value.vendredi[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Samedi:</p>
+                                                                  <div className="horaire">{value.samedi[0]} - {value.samedi[1]}</div>
+                                                                  <div className="horaire">{value.samedi[2]} - {value.samedi[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Dimanche:</p>
+                                                                  <div className="horaire">{value.dimanche[0]} - {value.dimanche[1]}</div>
+                                                                  <div className="horaire">{value.dimanche[2]} - {value.dimanche[3]}</div>
+                                                            </div>
+                                                            <div className="mobile__global__container__schedule__day">
+                                                                  <p>Total heures:</p>
+                                                                  <div className="horaire">{value.total_horaires}</div>
+                                                            </div>
+                                                      </div>
+                                                </>)
+                                    } else { return null }
+                              }) : authState.isDirection ? (<div className="mobile__global__container__unavailable">Sur mobile, la gestion des plannings de l'équipe est indisponible</div>)
+                                                      
+                                          
+                                : <div>Pas d'emploi du temps pour le moment !</div>}
+                              
+                        </div>
+                        <button className="button buttonPDF" onClick={() => {window.print()}}>Exporter en PDF</button>
             </>
             
       );

@@ -1,5 +1,6 @@
 import React, { useRef} from "react";
 import Navbar from "../components/Navbar";
+import MobileNavbar from "../components/MobileNavBar";
 import axios from "axios";
 import InfoBubble from "../components/InfoBubble"
 import { useEffect, useState, useContext } from "react";
@@ -63,7 +64,7 @@ const NewSchedule = () => {
                                           .then((response) => {
                                                 setListOfPlannings(response.data.listOfPlannings);
                                                 setIsLoaded(true);
-                                                console.log(listOfPlannings)
+                                                
                                           });
                               }
                         })
@@ -221,6 +222,7 @@ const NewSchedule = () => {
 
       return (
             <>
+                  <MobileNavbar />
                   <Navbar />
                   <InfoBubble />
                   <div className="newSchedule_container">
@@ -308,14 +310,15 @@ const NewSchedule = () => {
                                     )
                               })}
                                     </tbody>
-                              
-                                    
-                              
-                              
-                              
                         </table>
                   </div>
-                  <div className="ENVOYER" onClick={onSubmit}>ENVOYER</div>
+                  <div className="mobile__global__container">
+                        <div className="mobile__global__container__unavailable">
+                              La création de plannings est uniquement accessible sur format grand écran !
+                        </div>
+                  </div>
+                  <div className="button buttonPDF" onClick={onSubmit}>ENVOYER</div>
+                  
             </>
       );
 };

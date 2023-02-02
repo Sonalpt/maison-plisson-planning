@@ -83,13 +83,17 @@ const Login = () => {
             <>
                   <h1>MAISON PLISSON</h1>
                   <h2>STAFF</h2>
+                  <div className="login_links">
+                        <Link to={"/"}>Se connecter</Link>
+                        <Link to={"/inscription"}>S'inscrire</Link>
+                  </div>
                   <section className="login_container">
                         <Formik
                               initialValues={initialValues}
                               onSubmit={onSubmit}
                               validationSchema={validationSchema}
                         >
-                              <Form className="loginContainer">
+                              <Form className="login_container__form">
                                     {/* <div className="authComponent">
                                           <Link to="/register">
                                                 S'enregistrer
@@ -119,7 +123,7 @@ const Login = () => {
                                           placeholder="Votre mot de passe..."
                                     />
 
-                                    <button type="submit">Se connecter</button>
+                                    <button className="button" type="submit">Se connecter</button>
                               </Form>
                         </Formik>
                   </section>

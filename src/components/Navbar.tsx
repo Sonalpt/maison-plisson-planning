@@ -14,7 +14,7 @@ const Navbar = () => {
             navigate("/")
       }
       return (
-            <nav>
+            <nav className="desktop__navbar">
                   <div className="lmp_logo">
                         <p>MAISON PLISSON</p>{" "}
                   </div>

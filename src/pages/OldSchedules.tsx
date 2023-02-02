@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import MobileNavbar from "../components/MobileNavBar";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
@@ -94,6 +95,7 @@ const OldSchedules = () => {
             
             return (
                   <>
+                        <MobileNavbar />
                         <Navbar />
                         <div className="oldSchedule_container">
                               <h1 className="oldSchedule_container__title">LISTE DES PLANNINGS</h1>

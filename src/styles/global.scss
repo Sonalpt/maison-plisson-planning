@@ -14,6 +14,39 @@ $plisson_white: #FFFFFF;
     src: url(../fonts/Gotham-Book/GothamBookRegular/GothamBookRegular.otf);
 }
 
+@keyframes onOpen {
+    0% {
+        transform: translateX(-100%);
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        -o-transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+        -webkit-transform: translateX(0%);
+        -moz-transform: translateX(0%);
+        -ms-transform: translateX(0%);
+        -o-transform: translateX(0%);
+    }
+}
+@keyframes onClose {
+    0% {
+        transform: translateX(0%);
+        -webkit-transform: translateX(0%);
+        -moz-transform: translateX(0%);
+        -ms-transform: translateX(0%);
+        -o-transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        -o-transform: translateX(-100%);
+    }
+}
+
 html {
     font-size: 62.5%;
     background-color: $plisson_blue;
@@ -21,11 +54,44 @@ html {
     font-family: 'Gotham Book', sans-serif;
 }
 
+.button {
+                position: relative;
+                font-size: 1.8rem;
+                padding: 1.5rem;
+                border-radius: 1rem;
+                -webkit-border-radius: 1rem;
+                -moz-border-radius: 1rem;
+                -ms-border-radius: 1rem;
+                -o-border-radius: 1rem;
+                background-color: $plisson_blue;
+                color: $plisson_white;
+                border: 0.1rem solid $plisson_white;
+                transition: 250ms all;
+                -webkit-transition: 250ms all;
+                -moz-transition: 250ms all;
+                -ms-transition: 250ms all;
+                -o-transition: 250ms all;
+                margin-bottom: 5rem;
+                &:hover {
+                    cursor: pointer;
+                    background-color: $plisson_red;
+                    color: $plisson_white;
+                    border: 0.1rem solid $plisson_red;
+                    transition: 250ms all;
+                    -webkit-transition: 250ms all;
+                    -moz-transition: 250ms all;
+                    -ms-transition: 250ms all;
+                    -o-transition: 250ms all;
+                }
+            }
+
 h1 {
     font-family: 'Gotham-Bold', sans-serif;
     line-height: 24px;
     letter-spacing: 1rem;
     font-size: 5rem;
+    margin-top: 15vh;
+    margin-bottom: 0;
 }
 h2 {
     color: $plisson_red;
@@ -33,7 +99,7 @@ h2 {
     letter-spacing: 1rem;
     margin-bottom: 5rem;
 }
-nav {
+.desktop__navbar {
     height: 10vh;
     display: flex;
     flex-direction: row;
@@ -80,12 +146,26 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    .login_links {
+        margin-top: -2.5rem;
+        margin-bottom: 2.5rem;
+        display: flex;
+        color: $plisson_white;
+        text-decoration: none;
+        width: 80vw;
+        justify-content: space-between;
+        a {
+            color: $plisson_white;
+            font-size: 1.6rem;
+        }
+    }
     .login_container {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        form {
+        justify-content: center;
+        &__form {
             display: flex;
             flex-direction: column;
             label {
@@ -103,34 +183,6 @@ nav {
                 font-family: "Gotham Book", sans-serif;
                 font-size: 1.6rem;
             }
-            button {
-                font-size: 1.8rem;
-                padding: 1.5rem;
-                border-radius: 1rem;
-                -webkit-border-radius: 1rem;
-                -moz-border-radius: 1rem;
-                -ms-border-radius: 1rem;
-                -o-border-radius: 1rem;
-                background-color: $plisson_blue;
-                color: $plisson_white;
-                border: 0.1rem solid $plisson_white;
-                transition: 250ms all;
-                -webkit-transition: 250ms all;
-                -moz-transition: 250ms all;
-                -ms-transition: 250ms all;
-                -o-transition: 250ms all;
-                &:hover {
-                    cursor: pointer;
-                    background-color: $plisson_red;
-                    color: $plisson_white;
-                    border: 0.1rem solid $plisson_red;
-                    transition: 250ms all;
-                    -webkit-transition: 250ms all;
-                    -moz-transition: 250ms all;
-                    -ms-transition: 250ms all;
-                    -o-transition: 250ms all;
-                }
-            }
             span {
                 font-size: 1.8rem;
                 color: $plisson_red;
@@ -141,6 +193,8 @@ nav {
 
 
     .newSchedule_container {
+        position: relative;
+        left: 5%;
         font-size: 1.4rem;
         border: 0.3rem solid $plisson_white;
         border-radius: 1rem;
@@ -149,6 +203,7 @@ nav {
         -ms-border-radius: 1rem;
         -o-border-radius: 1rem;
         display: flex;
+        margin-bottom: 5rem;
         table {
             border: 0.3rem solid $plisson_white;
         border-radius: 1rem;
@@ -186,6 +241,11 @@ nav {
                 }
                 span {
                     line-height: 3rem;
+                }
+            }
+            td:nth-child(11) {
+                &:hover {
+                    cursor: pointer;
                 }
             }
         }
@@ -276,12 +336,11 @@ nav {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    caption,thead,tbody,tr,th,td,input,span:;
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
-{
+    caption,thead,tbody,tr,th,td,input,span{
         visibility: visible;
     }
     td:nth-child(11) {
@@ -291,7 +350,239 @@ nav {
         height: 0rem;
     }
   }
-  
 }
 
+.mobile__navbar {
+    visibility: hidden;
+    display: none;
+    min-width: 100%;
+    &__closed {
+        background-color: lighten(#17263B, $amount: 5);
+        z-index: 1;
+        position: fixed;
+        width: 95vw;
+        height: 5vh;
+        border: 0.1rem solid $plisson_white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            height: 100%;
+            width: 5rem;
+            border: 0.1rem solid $plisson_white;
+            background-color: lighten(#17263B, $amount: 5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .mobile__navbar__logo {
+                min-width: 1.5rem;
+                min-height: 0.2rem;
+                margin-top: 0.2rem;
+                margin-bottom: 0.2rem;
+                background-color: $plisson_white;
+            }
+        }
+        p {
+            margin-right: 2.5rem;
+            margin-left: 2.5rem;
+            font-size: 1.2rem;
+            color: $plisson_white;
+            text-align: center;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    &__opened {
+        background-color: lighten(#17263B, $amount: 5);
+        border: 0.1rem solid $plisson_white;
+        z-index: 1;
+        position: fixed;
+        transform: translate(-100%, -100%);
+        top: 6.5vh;
+        height: 90vh;
+        width: 95vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation-name: onOpen;
+        animation-duration: 750ms;
+        animation-fill-mode: forwards;
+        -webkit-transform: translate(-100%, -100%);
+        -moz-transform: translate(-100%, -100%);
+        -ms-transform: translate(-100%, -100%);
+        -o-transform: translate(-100%, -100%);
+        .lmp_logo{
+            border: 0.1rem solid $plisson_white;
+            width: 100%;
+            text-align: center;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+        div {
+            margin: 0;
+            border: 0.1rem solid $plisson_white;
+            width: 100%;
+            text-align: center;
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+    }
+}
+
+.mobile__global__container {
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    display: none;
+    visibility: hidden;
+    margin-top: 5rem;
+    font-size: 1.6rem;
+    &__welcome {
+        border: 0.1rem solid $plisson_white;
+        margin-top: 1.5rem;
+        margin-bottom: 2.5rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        border-radius: 1rem;
+        -webkit-border-radius: 1rem;
+        -moz-border-radius: 1rem;
+        -ms-border-radius: 1rem;
+        -o-border-radius: 1rem;
+    }
+    &__unavailable {
+        border: 0.1rem solid $plisson_white;
+        border-radius: 1rem;
+        -webkit-border-radius: 1rem;
+        -moz-border-radius: 1rem;
+        -ms-border-radius: 1rem;
+        -o-border-radius: 1rem;
+        padding: 2.5rem;
+        margin-bottom: 5rem;
+        margin-top: 5rem;
+        height: 50vh;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+}
+    &__schedule {
+        border: 0.1rem solid $plisson_white;
+        margin-top: 2.5rem;
+        margin-bottom: 2.5rem;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        border-radius: 1rem;
+        -webkit-border-radius: 1rem;
+        -moz-border-radius: 1rem;
+        -ms-border-radius: 1rem;
+        -o-border-radius: 1rem;
+        width: 95%;
+        &__day {
+            border: 0.1rem solid $plisson_white;
+            margin-top: 2.5rem;
+            margin-bottom: 2.5rem;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-radius: 1rem;
+            -webkit-border-radius: 1rem;
+            -moz-border-radius: 1rem;
+            -ms-border-radius: 1rem;
+            -o-border-radius: 1rem;
+        }
+    }
+}
+
+@media (max-width: 500px){
+        .mobile__navbar, .mobile__global__container {
+            visibility: visible !important;
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+        }
+        .desktop__navbar, .infoBubble, .newSchedule_container, .buttonPDF {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        .oldSchedule_container {
+        display: flex;
+        flex-direction: column;
+        width: 90vw;
+        &__title {
+            font-size: 2rem;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 5rem;
+            margin-top: 7.5rem;
+        }
+        &__list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            .planningContainer {
+                font-size: 2rem;
+                width: 90%;
+                height: 25rem;
+                border: 0.1rem solid $plisson_white;
+                border-radius: 1rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                -webkit-border-radius: 1rem;
+                -moz-border-radius: 1rem;
+                -ms-border-radius: 1rem;
+                -o-border-radius: 1rem;
+                margin-bottom: 5rem;
+                text-align: center;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    h1 {
+        margin-top: 5rem;
+        font-size: 3rem;
+        text-align: center;
+        line-height: 3rem;
+        align-self: center;
+    }
+    h2 {
+        font-size: 2.4rem;
+        text-align: center;
+    }
+    .login_container {
+        &__form {
+            display: flex;
+            flex-direction: column;
+            font-size: 2rem;
+            label {
+            margin-bottom: 1rem;
+            font-size: 1.8rem !important;
+            }
+            input {
+                margin-bottom: 2.5rem;
+                padding: 1rem;
+                border-radius: 1rem;
+                -webkit-border-radius: 1rem;
+                -moz-border-radius: 1rem;
+                -ms-border-radius: 1rem;
+                -o-border-radius: 1rem;
+                font-family: "Gotham Book", sans-serif;
+                font-size: 1.6rem;
+            }
+            span {
+                font-size: 1.8rem;
+                color: $plisson_red;
+                margin-bottom: 0.25rem;
+            }
+        }
+    }
+}
 
