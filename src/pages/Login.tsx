@@ -72,7 +72,7 @@ const Login = () => {
                               status: true,
                         });
                       
-                        navigate("/planning/0");
+                        navigate("/");
                   }
             });
       };
