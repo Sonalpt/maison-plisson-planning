@@ -14,9 +14,9 @@ import {
 const Login = () => {
       useEffect(() => {
             if (localStorage.getItem("accessToken")) {
-        navigate("/planning/0");
+            navigate("/");
     }
-      })
+      }, [])
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { setAuthState } = useContext(AuthContext);
@@ -53,7 +53,7 @@ const Login = () => {
 
       const onSubmit = (data: any) => {
             axios.post(
-                  "http://localhost:3001/auth/login",
+                  "https://mlp-planning-backend.herokuapp.com/auth/login",
                   data
             ).then((response) => {
                   if (response.data.error) {

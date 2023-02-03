@@ -31,7 +31,7 @@ const NewSchedule = () => {
             } else {
                   axios
                         .get(
-                              "http://localhost:3001/auth/verifyToken",
+                              "https://mlp-planning-backend.herokuapp.com/auth/verifyToken",
                               {
                                     headers: { accessToken: localStorage.getItem("accessToken") },
                               }
@@ -51,14 +51,14 @@ const NewSchedule = () => {
                                           status: true,
                                     });
                                     axios
-                                          .get("http://localhost:3001/employee",{
+                                          .get("https://mlp-planning-backend.herokuapp.com/employee",{
                                     headers: { accessToken: localStorage.getItem("accessToken") },
                               })
                                           .then((response) => {
                                                 setListOfEmployees(response.data.listOfEmployees);
                                           })
                                     axios
-                                          .get("http://localhost:3001/planning",{
+                                          .get("https://mlp-planning-backend.herokuapp.com/planning",{
                                     headers: { accessToken: localStorage.getItem("accessToken") },
                               })
                                           .then((response) => {
@@ -203,7 +203,7 @@ const NewSchedule = () => {
                   // eslint-disable-next-line @typescript-eslint/no-unused-vars
                    axios
                   .post(
-                  "http://localhost:3001/planning",
+                  "https://mlp-planning-backend.herokuapp.com/planning",
                   {
                   plannings: planningsToFetch
                   },

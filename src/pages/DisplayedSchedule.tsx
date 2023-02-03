@@ -41,7 +41,7 @@ useEffect(() => {
         navigate("/");
     } else {
         axios
-            .get("http://localhost:3001/auth/verifyToken", {
+            .get("https://mlp-planning-backend.herokuapp.com/auth/verifyToken", {
                 headers: { accessToken: localStorage.getItem("accessToken") },
             })
             .then((response) => {
@@ -56,14 +56,14 @@ useEffect(() => {
                         status: true,
                     });
                     axios
-                        .get("http://localhost:3001/employee", {
+                        .get("https://mlp-planning-backend.herokuapp.com/employee", {
                             headers: { accessToken: localStorage.getItem("accessToken") },
                         })
                         .then((response) => {
                             setListOfEmployees(response.data.listOfEmployees);
                         });
                     axios
-                        .get("http://localhost:3001/planning", {
+                        .get("https://mlp-planning-backend.herokuapp.com/planning", {
                             headers: { accessToken: localStorage.getItem("accessToken") },
                         })
                         .then((response) => {
@@ -208,7 +208,7 @@ useEffect(() => {
       const onSubmit = () => {
             axios
                   .put(
-                  "http://localhost:3001/planning/editplanning",
+                  "https://mlp-planning-backend.herokuapp.com/planning/editplanning",
                   {
                   planning: planningsToFetch[0]
                   },
@@ -225,35 +225,43 @@ useEffect(() => {
       };
       
       if (!isLoaded) {
-            return <div>Pas d'emploi du temps pour le moment !</div>
-      } else {
-            if (id === 0 && authState.isDirection) {
-                  const filteredListDirection = listOfPlannings.reverse().filter((planning, index, self) => 
-                              index === self.findIndex(t => (
-                              t.planning_id === planning.planning_id
-                              ))
-                  );
-                  id = filteredListDirection[0].planning_id;
-                  navigate(`/planning/${id}`)
-            } else if (id === 0 && !authState.isDirection) {
-                  const filteredListNoDirection = listOfPlannings.filter((planning, index, self) => 
-                        planning.nom_employe === authState.nom_complet &&
-                        index === self.findIndex(t => (
-                        t.planning_id === planning.planning_id
-                        ))
-                  );
-                  if (filteredListNoDirection.length < 1) {
-                        id = listOfPlannings[0].planning_id
-                        navigate(`/planning/${id}`)
-                  } else {
-                        id = filteredListNoDirection[0].planning_id;
-                        navigate(`/planning/${id}`)
-                  }
-                  
-            }
+            return  <div>Chargement en cours !</div>
+      } else if (listOfPlannings.length < 1) {
             return (
                   <>
-                        
+                        <MobileNavbar />
+                        <Navbar />
+                        <div className="mobile__global__container">Pas d'emploi du temps pour le moment</div>
+                        <div className="newSchedule_container">Pas d'emploi du temps pour le moment</div>
+                  </>
+            )
+      } else {
+            // if (id === 0 && authState.isDirection) {
+            //       const filteredListDirection = listOfPlannings.reverse().filter((planning, index, self) => 
+            //                   index === self.findIndex(t => (
+            //                   t.planning_id === planning.planning_id
+            //                   ))
+            //       );
+            //       id = filteredListDirection[0].planning_id;
+            //       navigate(`/planning/${id}`)
+            // } else if (id === 0 && !authState.isDirection) {
+            //       const filteredListNoDirection = listOfPlannings.filter((planning, index, self) => 
+            //             planning.nom_employe === authState.nom_complet &&
+            //             index === self.findIndex(t => (
+            //             t.planning_id === planning.planning_id
+            //             ))
+            //       );
+            //       if (filteredListNoDirection.length < 1) {
+            //             id = listOfPlannings[0].planning_id
+            //             navigate(`/planning/${id}`)
+            //       } else {
+            //             id = filteredListNoDirection[0].planning_id;
+            //             navigate(`/planning/${id}`)
+            //       }
+                  
+            // }
+            return (
+                  <>
                         <MobileNavbar />
                         <Navbar />
                         {tdModificationState === 2 ? (<InfoBubble />) : null}
@@ -261,16 +269,12 @@ useEffect(() => {
                               <table ref={componentRef}>
                                     <>
                                           {authState.isDirection && listOfPlannings.some(planning => planning.planning_id === id) ? listOfPlannings.map((value, key) => {
-                                                
-                                                
                                                 if (value.planning_id === id) { 
                                                       if (isPeriodeFound) {
                                                             return
                                                       } else {
-                                                       
                                                             isPeriodeFound = true
                                                             return (
-
                                                       <>
                                                             <caption>Période du {value.periode}</caption>
                                                             <thead>

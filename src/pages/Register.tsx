@@ -48,7 +48,7 @@ function Register() {
 
         const onSubmit = (data: any) => {
               axios.post(
-                    "http://localhost:3001/auth/register",
+                    "https://mlp-planning-backend.herokuapp.com/auth/register",
                     data
               ).then((response) => {
                     if (response.data === "L'utilisateur existe déjà") {

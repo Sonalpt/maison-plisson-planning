@@ -6,8 +6,6 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { AuthContext } from "../helpers/AuthContext";
 
-
-
 const OldSchedules = () => {
 
       const { authState, setAuthState } = useContext(AuthContext);
@@ -28,7 +26,7 @@ const OldSchedules = () => {
             } else {
                   axios
                         .get(
-                              "http://localhost:3001/auth/verifyToken",
+                              "https://mlp-planning-backend.herokuapp.com/auth/verifyToken",
                               {
                                     headers: { accessToken: localStorage.getItem("accessToken") },
                               }
@@ -48,14 +46,14 @@ const OldSchedules = () => {
                                           status: true,
                                     });
                                     axios
-                                          .get("http://localhost:3001/employee", {
+                                          .get("https://mlp-planning-backend.herokuapp.com/employee", {
                                                 headers: { accessToken: localStorage.getItem("accessToken") },
                                           })
                                           .then((response) => {
                                                 setListOfEmployees(response.data.listOfEmployees);
                                           })
                                     axios
-                                          .get("http://localhost:3001/planning", {
+                                          .get("https://mlp-planning-backend.herokuapp.com/planning", {
                                                 headers: { accessToken: localStorage.getItem("accessToken") },
                                           })
                                           .then((response) => {
@@ -66,9 +64,6 @@ const OldSchedules = () => {
                               }
                         })
             }
-
-    
-    
       }, [!listOfPlannings]);
 
       const filteredListNoDirection = listOfPlannings.filter((planning, index, self) => 
@@ -84,15 +79,9 @@ const OldSchedules = () => {
   ))
 );
 
-
-
-
-
-
       if (!isLoaded) {
             return <div>chargement en cours</div>
       } else {
-            
             return (
                   <>
                         <MobileNavbar />

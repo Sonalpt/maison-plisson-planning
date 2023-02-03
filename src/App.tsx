@@ -30,7 +30,7 @@ function App() {
       const [planningState, setPlanningState] = useState({
             id: 0,
       });
-      const baseURL: string = "http://localhost:3001/";
+      const baseURL:any= "https://mlp-planning-backend.herokuapp.com/";
 
       return (
             <>
@@ -44,7 +44,7 @@ function App() {
                               <Router>
                                     <Routes>
                                           <Route
-                                                path="/"
+                                                path="/login"
                                                 
                                                       element={<Login />}
                                           />
@@ -64,7 +64,7 @@ function App() {
                                                 element={<DisplayedSchedule />}
                                           />
                                           <Route
-                                                path="/anciensplannings"
+                                                path="/"
                                                 
                                                 element={<OldSchedules />}
                                           />

@@ -11,7 +11,7 @@ const Navbar = () => {
 
       const onDisconnect = () => {
             localStorage.removeItem("accessToken");
-            navigate("/")
+            navigate("/login")
       }
       return (
             <nav className="desktop__navbar">
@@ -21,7 +21,7 @@ const Navbar = () => {
                   {authState.isDirection ? (<p onClick={() => {navigate("/nouveauplanning")}}>Créer un planning</p>) : <div></div>}
                   
                   <p onClick={() => {navigate("/planning/0")}}>Planning actuel</p>
-                  <p onClick={() => {navigate("/anciensplannings")}}>Anciens plannings</p>
+                  <p onClick={() => {navigate("/")}}>Anciens plannings</p>
                   <p onClick={onDisconnect}>Se déconnecter</p>
             </nav>
       );
